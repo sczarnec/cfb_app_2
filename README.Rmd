@@ -1,0 +1,111 @@
+---
+title: "CFB Model README"
+output: github_document
+date: "2025-09-09"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Czar College Football
+
+This document contains all documentation for Czar College Football, including both the model and app. For any further questions, reach out to Steve at sczarnecki1212@gmail.com
+
+<br>
+
+## The Model
+
+At a high level, this is a collection of three XGBoost models that predict game outcomes. They all use the same features with different outcome variables. They are as follows:
+
+1. Cover model: predict if a team will cover (0 or 1)
+2. Win model: predict if a team will win (0 or 1)
+3. Over model: predict if a game will hit the over (0 or 1)
+
+Two different methods were tried: using linear predictions or binary. For example, we could have predicted point differential for spread and total points for over/under. However, after trying it both ways during many different steps in the process, the binary classification model always achieved better accuracy. So, we went with that for the final model.
+
+<br>
+
+### The Rolling Window
+
+The model itself is trained using a rolling window, as shown in the diagram below. For each week, it trains on the last six years of data and tests on the current week (e.g. trains on 2018 Week 7 through 2024 Week 5 to test on 2024 Week 6). For the next week, the training window moves up one week and the test moves up to the next week. This dynamic model architecture accounts concept drift in the game of football by keeping the training data relatively recent. Also, this allows for every single game to be used as test data so we can assess how well the model works for everything possible.
+
+Hyperparameter tuning was performed on data from 2015-2020, using a slightly different architecture (for less compute time) and variable selection is dynamically performed on training data each week by pulling the top variables from a SHAP plot after an initial model is run.
+
+Week 4 was chosen as the cutoff point since accuracy was bad for weeks 2 and 3 and improved for 4. This is likely because not much data is available for the rolling windows to be computed.
+
+<br>
+
+### The Data
+
+Data is pulled from the cfbfastR package, which uses College Football Data API calls. The cfbd_game_info, load_cfb_pbp, cfbd_betting_lines, cfbd_team_talent, and cfbd_rankings data sources are all used. 
+
+Book data is pulled from different providers. The package used to only have smaller books but has added mainstream books over the last few years. Today, Draft Kings and ESPN Bet are the books that are used, if available.
+
+<br>
+
+### Feature Engineering
+
+Many features are derived using rolling windows. Once derived, they are transformed into more complex features as well, which adjust for things like strength of opponents. As a note, stats stop at Week 1 of the current season, even if they do not cover the entire window (e.g. 3-week rolling window stats computed for Week 3 just use weeks 1 and 2)
+
+Here are some examples of derived features:
+
+- Per-game stats: calculates per-game stats like off and def turnovers/game,off and def touchdowns/game, and off and defsacks/game over the last 1, 3, and 20 (season-long) games
+- Per-play stats: calculates per-play stats like off and def EPA/play, off and def WPA/play, and off and def success rate over the last 1, 3, and 20 (season-long) games
+- Grouped per-play stats: calculated per-play stats when filtered for certain groups. Includes off and def EPA/play on rushes and passes, off and def WPA/play on rushes and passes, and more over the last 1, 3, and 20 (season-long) games
+- Book lines: spread and over/under lines are used (from the most recent line before the game starts). Moneyline was not used because the data is more sparse with many nulls in older years, and the fact that it is similar to spread make it less meaningful.
+- Talent ratings: pre-season ratings of how much recruiting talent is on the teams before the season starts (pulled from 247 Sports through cfbfastR)
+- Rankings: tiers are derived based on where teams are ranked in the AP Poll
+- Per-game overall metric stats: calculates per-game stats like win rate, points/game, and points against/game over the last 1, 3, and 20 games.
+- Opponent strength: opponent rank tiers and talent over the last 1, 3, and 20 games are calculates (e.g. if you just played Alabama, Georgia, and LSU, this will show that you played tough competition and likely be used to adjust for your other stats being lower in value but more impressive)
+- Book error: how much the book was off when predicting a team's games over the last 3 and 20 games
+- Over average metrics: for many of these metrics, each week that went into them was looked at, computing an "over average" metric for each week instead of a raw metric. For example, if you scored 2 touchdowns against Alabama, but over the last 3 games they allowed an average of 1 touchdown per game, you would be 1 touchdown over average. This would be donw for all 3 or 20 games within the window and the metric would be calculated based on these (e.g. 1 TD oa for Alabama, -2 TD oa for Georgia, and 0 TD oa for LSU would result in a metric of -.33 TD oa over the last 3 games). As a note, the opponent's baseline was computed using the same time window as the stat, except for last game windows, which used the last 3 games. Also, If you played LSU in Week 7, their baseline would be calculated based on weeks 4-6 and compared to your Week 7 stat when computing your metric that will be used for Week 8. Overall, these stats control for strength of opponents when looking at a team's stats.
+- Over time difference metrics: for certain metrics, different time periods were compared. For example, EPA/play over the last 3 games for a team would be compared to EPA/play over the last 20. This would show if the team is improving in that area or not.
+
+NA's are treated by looking back one to two weeks for each team to see if any data can replace the current NA value as a proxy. If not, it is left NA for XGBoost to handle.
+
+<br>
+
+### Results and Bootstrapping
+
+As of the current backtesting on data from 2021-2024, the model is significantly profitable for spread and moneyline. Non-parametric bootstrapping is used to compute confidence intervals. Overall, the cover model gives a return of +4.56% on betting the spread, the win model a return of +9.46% on betting moneyline, and the over model a return of -3.63% for betting over/under.
+
+Take a look at the graphs for bootstrapping results. Overall, you can see how as value improves (either cover probability over 50% or win probability difference from vegas's implied win probability), the model's return gets higher. Most of the returns at these higher levels are significant as well.
+
+One important note for the year to year models: spread has stayed stable while moneyline return has decreased over the last couple years. Spread is likely a safer bet as well as one with less variance. As a note on the non-significance of these years, the sample sizes are too small. 
+
+
+<br>
+
+### Data Leakage Prevention
+
+Many precautions were taken to ensure that no data leakage occurred:
+
+- Feature engineering was QA'ed to make sure all features came from previous week data. As an inherent verification, the data preparation structure in the current workflow computes the current (un-completed future) week's features just as all the others. This means that there cannot possibly be leakage from after the game occurred if the game has not occurred yet.
+- Variable selection occurs on the training data within the rolling window architecture. Each week, the initial model is computed using all 589 derived variables. From here, the SHAP feature importance plot is produced and the top 150 features are selected. This is all on training data, the test data being unseen.
+- Hyperparameter tuning was performed on data from 2015-2020, which is included in training data at times but never in test data. So, test data is still completely unseen after tuning.
+- Some features like vegas's book spread or over/under line could be seen as proxies, but these are not threats to the integrity of the model. We are simply building the model around them. They are also available before the game at the time of prediction, being able to be used on real-life predictions as well.
+
+<br>
+
+### Potential Model Pitfalls
+
+There are still a few reasons why the model may fall short of its backtested accuracy in real life:
+
+- Concept drift: although the rolling window tries to account for some of this issue, there is a chance the window will not account for some of the drift. We like 6 years to give enough training data, but the front end of that could be less representative of the current state of college football. Furthermore, features like vegas's lines could change over time (i.e. their models change and now a 2018 book spread is completely different than a 2025). There is not much we can do on this point except keep trying different time windows.
+- Overfitting: every precaution was taken against overfitting. We used cross-validation in hyperparameter tuning and tested on unseen data. We did not use the test data as validation data at all, just using it as a measure of accuracy. However, as in all models, there is a chance of overfitting.
+- Dynamic model: while the rolling window is good to account for concept drift, the tradeoff is the fact that the model itself changes from week-to-week. While the models likely do not change much from week to week, the training does change and count bring accuracy in a bad direction. It is important to continue to monitor performance and consider switching model architecture and/or hyperparameters if real-life results start trending down.
+- Betting data source changes: the data source that provides lines for the model has switched providers over the years. It used to not have major books and relied mostly on smaller books for lines, but not has sites like Draft Kings and ESPN Bet readily accessible. So, the betting line features change slightly over the years. However, these lines are usually the same or are only off by very small margins.
+
+<br>
+
+### Future Directions for the model
+
+- Rolling window testing: perform more tests on the rolling window size. We did not want to do much, since we did not have that many years available and did not want to overfit by choosing a window based on performance that leaks into the test data (e.g. using 2015-2022 to test an eight-year rolling window, since it leaks into test data). It would be interesting to look into this as we progress through the years and have room to ethically test windows.
+- Different model types: this model was started in XGBoost since it is one of the most powerful tree-based models out there, as well as one of the top models in general. However, it would be interesting to try other model types. Neural nets were considered, but 1) tree-based methods have been often shown to perform just as well and better on structured tasks and 2) there are likely too few rows (<10,000) to train on for powerful neural network results. It would be interesting to try in the future though.
+- Expand feature space: getting more features always shows to be the best way to improve models. Scraping more betting data like opening lines, % of money on each side, and more would be cool. Getting more CFB data in general would be cool. Also, using unstructured and even agentic methods would be interesting for feature inputs but would definitely need the use of a more neural network-centric approach.
+- Weather data: weather data is available through cfbfastR after the game, but not before the game. It would be cool to find an API to predict weather and use for future predictions so the model can incorporate this data. In testing, some of this data added predictive value for over probability (good boost but still not profitable) while not adding much to cover or win probability predictions.
+
+
+
+
