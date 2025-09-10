@@ -208,7 +208,7 @@ def make_merged_predictions(data):
 
 
         # join in more info we need for betting comparisons
-        betting_join = data[["t1_book_spread", "book_over_under", "t1_moneyline", "t2_moneyline", "t1_conference", "t2_conference", "game_id", "t1_team"]]
+        betting_join = data[["t1_book_spread", "book_over_under", "t1_moneyline", "t2_moneyline", "t1_conference", "t2_conference", "game_id", "t1_team", "start_date", "kickoff"]]
         merged_predictions = final_predictions_df.merge(betting_join, left_on=["game_id","Home"], right_on=["game_id", "t1_team"], how="left")
 
 
@@ -433,7 +433,8 @@ def make_merged_predictions(data):
             "t2_ml_prob": "Book Away Win Prob",
             "book_over_under": "Book O/U",
             "t1_conference": "Home Conf",
-            "t2_conference": "Away Conf"
+            "t2_conference": "Away Conf",
+            "kickoff": "Gametime"
         })
 
 
@@ -2271,17 +2272,17 @@ def this_week_page():
 
                 # format dfs
                 # display df depends on what bet type user filters for
-                this_week_display_df = merged_predictions[["Spread Bet on: ", "ML Bet on: ", "O/U Bet on: ", "Home", "Away", "Spread Value",
-                    "ML Value", "O/U Value", "Book Home Moneyline", "Book Away Moneyline", "Home Conf", "Away Conf", "Neutral?"]].sort_values(by="Spread Value", ascending=False)
+                this_week_display_df = merged_predictions[["Spread Bet on: ", "ML Bet on: ", "O/U Bet on: ", "Gametime", "Home", "Away", "Spread Value",
+                    "ML Value", "O/U Value", "Book Home Moneyline", "Book Away Moneyline", "Home Conf", "Away Conf", "Neutral?", "start_date"]].sort_values(by="start_date", ascending=True).drop("start_date", axis = 1)
 
-                this_week_display_spread_df = merged_predictions[["Spread Bet on: ", "Spread Value", "Home", "Away", "Pred Home Cover Prob",
-                                                                "Home Conf", "Away Conf", "Neutral?"]].sort_values(by="Spread Value", ascending=False)
+                this_week_display_spread_df = merged_predictions[["Spread Bet on: ", "Spread Value", "Gametime", "Home", "Away", "Pred Home Cover Prob",
+                                                                "Home Conf", "Away Conf", "Neutral?", "start_date"]].sort_values(by="start_date", ascending=True).drop("start_date", axis = 1)
 
-                this_week_display_ml_df = merged_predictions[["ML Bet on: ", "ML Value", "Home", "Away", "Book Home Moneyline", "Book Away Moneyline", "Pred Home Win Prob", "Book Home Win Prob", "Pred Away Win Prob", 
-                                                            "Book Away Win Prob", "Home Conf", "Away Conf", "Neutral?"]].sort_values(by="ML Value", ascending=False)
+                this_week_display_ml_df = merged_predictions[["ML Bet on: ", "ML Value", "Gametime", "Home", "Away", "Book Home Moneyline", "Book Away Moneyline", "Pred Home Win Prob", "Book Home Win Prob", "Pred Away Win Prob", 
+                                                            "Book Away Win Prob", "Home Conf", "Away Conf", "Neutral?", "start_date"]].sort_values(by="start_date", ascending=True).drop("start_date", axis = 1)
 
-                this_week_display_ou_df = merged_predictions[["O/U Bet on: ", "O/U Value", "Home", "Away", "Pred Over Prob", "Home Conf", 
-                                                            "Away Conf", "Neutral?"]].sort_values(by="O/U Value", ascending=False)      
+                this_week_display_ou_df = merged_predictions[["O/U Bet on: ", "O/U Value", "Gametime", "Home", "Away", "Pred Over Prob", "Home Conf", 
+                                                            "Away Conf", "Neutral?", "start_date"]].sort_values(by="start_date", ascending=True).drop("start_date", axis = 1)  
             
 
                 
@@ -2308,13 +2309,13 @@ def this_week_page():
                 if bet_type_options == "All":
                     sort_options = st.selectbox(
                         "Sort Value By", 
-                        options=["Default", "Spread", "Moneyline", "Over/Under"],  
+                        options=["Gametime", "Spread", "Moneyline", "Over/Under"],  
                         index=0  
                     )
                 else:
                     sort_options = st.selectbox(
                         "Sort Value By", 
-                        options=["Default"],  
+                        options=["Gametime", bet_type_options],  
                         index=0)
 
                 st.write("") 

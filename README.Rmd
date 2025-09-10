@@ -8,6 +8,7 @@ date: "2025-09-09"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 # Czar College Football
 
 This document contains all documentation for Czar College Football, including both the model and app. For any further questions, reach out to Steve at sczarnecki1212@gmail.com
@@ -42,6 +43,8 @@ Data is pulled from the cfbfastR package, which uses College Football Data API c
 
 Book data is pulled from different providers. The package used to only have smaller books but has added mainstream books over the last few years. Today, Draft Kings and ESPN Bet are the books that are used, if available.
 
+Training data starts in 2015, resulting in four years of test data with the six-year rolling window.
+
 <br>
 
 ### Feature Engineering
@@ -64,6 +67,8 @@ Here are some examples of derived features:
 
 NA's are treated by looking back one to two weeks for each team to see if any data can replace the current NA value as a proxy. If not, it is left NA for XGBoost to handle.
 
+Games are only predicted for FBS teams. They are not predicted for FCS matchups, although stats from those games are used for future features for the FBS teams.
+
 <br>
 
 ### Results and Bootstrapping
@@ -73,6 +78,16 @@ As of the current backtesting on data from 2021-2024, the model is significantly
 Take a look at the graphs for bootstrapping results. Overall, you can see how as value improves (either cover probability over 50% or win probability difference from vegas's implied win probability), the model's return gets higher. Most of the returns at these higher levels are significant as well.
 
 One important note for the year to year models: spread has stayed stable while moneyline return has decreased over the last couple years. Spread is likely a safer bet as well as one with less variance. As a note on the non-significance of these years, the sample sizes are too small. 
+
+
+```{r, echo=FALSE, out.width="60%", fig.align="center"}
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/spread_by_value.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/spread_by_season.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/ml_by_value.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/ml_by_season.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/ou_by_value.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/ou_by_season.png")
+```
 
 
 <br>
