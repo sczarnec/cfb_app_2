@@ -8,6 +8,9 @@ This document contains all documentation for Czar College Football,
 including both the model and app. For any further questions, reach out
 to Steve at <sczarnecki1212@gmail.com>
 
+As for the code, only the app code is public. Model data preparation and
+training are in a private repo.
+
 <br>
 
 ## The Model
@@ -26,6 +29,8 @@ total points for over/under. However, after trying it both ways during
 many different steps in the process, the binary classification model
 always achieved better accuracy. So, we went with that for the final
 model.
+
+This model was built in R.
 
 <br>
 
@@ -49,6 +54,8 @@ the top variables from a SHAP plot after an initial model is run.
 Week 4 was chosen as the cutoff point since accuracy was bad for weeks 2
 and 3 and improved for 4. This is likely because not much data is
 available for the rolling windows to be computed.
+
+<img src="rolling_window_vis.png" width="60%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -250,3 +257,145 @@ backtested accuracy in real life:
   incorporate this data. In testing, some of this data added predictive
   value for over probability (good boost but still not profitable) while
   not adding much to cover or win probability predictions.
+
+<br>
+
+## The App
+
+The app is built in the Streamlit package in Python for convenience. It
+includes data that should be updated every week during the CFB season.
+
+<br>
+
+### Hosting
+
+This web app is hosted using Streamlit Cloud. It is free and just
+requires your app script to be in your GitHub repo. Data is stored
+within csv files in this GitHub. They are relatively small files with
+the larger upstream files being stored locally.
+
+<br>
+
+### Updating Data
+
+The app updates early in the week each week (Monday or Tuesday, haven’t
+decided yet). The model pipeline (different repo) is run to update data
+and results up to this week. Some predictions and results are computed
+in R, while others are left for inside the app. The output data is then
+written to the local cfb_app_2 folder. From there, these outputs are
+pushed to GitHub, automatically updating the app. There should be a
+local job set up soon to run these prep files and push the outputs to
+GitHub on a weekly schedule, but at the time of writing this in Week 3,
+it is manual.
+
+The only thing that changes within the week itself are betting lines.
+There is another R script set up locally to run on a schedule (will
+likely be automated to TH/F/SA mornings but is manual at the moment).
+This will update the file containing betting lines and push to GitHub.
+
+<img src="app_pipeline.png" width="60%" style="display: block; margin: auto;" />
+
+<br>
+
+### This Week’s Picks
+
+This page contains predictions for this week. It uses prepped training
+data, this week’s trained version of the model, and this week’s selected
+variables to compute predictions. The reason these predictions are
+dynamic is so that when betting lines are updated, the predictions can
+be easily updated in the app. These predictions rely on book lines to
+base the predictions around, which is why this updating process is
+necessary. It has been QA’ed to ensure that predictions made in the app
+are the same as those made in R at the time of the week and after the
+fact.
+
+Looking at the filters, ‘Value’ is a way to sort our predicted best
+value picks. Cover Value is a team’s Predicted Cover Probability minus
+50% (50% is what we need to say that team will cover, so how much over
+this threshold are we?). ML Value is the percentage difference between
+our predicted win probability for the team with value and sportsbooks’
+implied wp (converted from ML). Over/Under Value is also the game’s
+Predicted Over Probability minus 50%.
+
+<br>
+
+### Betslip Builder
+
+The point of this model is the fact that Expected Return % is positive.
+We won’t win every game, but we should make money if we bet a portfolio
+of games over time.
+
+So, this is our way of building a portfolio, or bet slip in this case.
+Users can add games to their betslip from here and see metrics like
+expected return and variance. As a note, expected return is based on
+conservative estimates. Historical backtesting suggests higher returns,
+but we do not want to be too optimistic. These may be changed if profit
+trends stay up.
+
+You can choose to build your total portfolio value by assigning a dollar
+amount to each unit bet or by defining an overall portfolio value to
+divide evenly among units. Usually, the point is to bet a certain amount
+and raise variance by splitting amongst more games, so we suggest this
+route.
+
+If you have trouble building your own betslip, you can use the
+optimizer. This iterates through every game and picks the best game
+until the constraints (min profit, max standard deviation, bet count)
+are hit/violated. For example, if you select the min profit option, it
+will keep adding bets until profit just reaches the defined threshold,
+continuing to add variance up to that point. Max standard deviation will
+keep adding games and lowering expected profit until we have gone under
+the max stdev. The final option is randomness, which is the probability
+that the bet selector will skip over a game during the loop. This adds
+some randomness to each person’s betslip, and is recommended since the
+mapping between confidence and profit isn’t completely linear.
+
+<br>
+
+### The Czar Poll
+
+This one computes the win probability for if every team played every
+team at home, away, and at a neutral site. The average win probability
+is the team’s final power rating. Since betting lines are needed for the
+win prob model itself, another model was built to predict these. Since
+this was just for fun, not much time was spent on this shittier model,
+but it was actually pretty accurate in predicting lines! As a note, if
+games that are actually occuring this week use the actual lines, or
+modified lines if they are happening but just at a different location.
+
+<br>
+
+### The Playoff
+
+This one uses current AP Rankings to predict the CFB Playoff teams and
+see who would win each game. These results are based on the same
+theoretical results from the Czar Poll pipeline. You can override games
+with the button at the bottom. Once again, just for fun.
+
+<br>
+
+### Game Predictor
+
+This one predicts any theoretical game that could happen at any
+location. Once again, just for fun.
+
+<br>
+
+### Betting Accuracy
+
+This page shows historical accuracy from Weeks 4-National Championship
+from 2021-24. This will update each week with last week’s results. You
+can apply many filters to see how the model performs in certain
+situations. Returns are based on if you split \$100 evenly among all the
+games currently being analyzed after filters. The actual historical
+results dataset was included for transparency. As a note, a few rows may
+be missing moneyline data, but this number is very small and from older
+years.
+
+<br>
+
+## That’s It
+
+That’s all. Go Irish.
+
+<br>
