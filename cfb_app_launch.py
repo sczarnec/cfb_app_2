@@ -638,6 +638,20 @@ def about_page():
       
   st.write("  ")
   st.write("  ")
+
+  st.markdown(
+        """
+        <style>
+        .custom-font {
+            font-size: 20px;
+        }
+        </style>
+        <div class="custom-font">
+            If you're a nerd, check out the <a href="https://github.com/sczarnec/cfb_app_2/blob/main/README.md" target="_blank">README</a> documentation for the model and app.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
       
 
   
@@ -2339,11 +2353,11 @@ def this_week_page():
                 if conf_options != "All":
                     picks_df = picks_df[picks_df['Home Conf'].eq(conf_options) | picks_df['Away Conf'].eq(conf_options)] 
                 if sort_options == "Spread":
-                    picks_df.sort_values(by="Spread Value", ascending=False, inplace=True)
+                    picks_df = picks_df.sort_values(by="Spread Value", ascending=False)
                 elif sort_options == "Moneyline":
-                    picks_df.sort_values(by="ML Value", ascending=False, inplace=True)
+                    picks_df = picks_df.sort_values(by="ML Value", ascending=False)
                 elif sort_options == "Over/Under":
-                    picks_df.sort_values(by="O/U Value", ascending=False, inplace=True)
+                    picks_df = picks_df.sort_values(by="O/U Value", ascending=False)
 
             
 

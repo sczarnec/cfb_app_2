@@ -81,12 +81,12 @@ One important note for the year to year models: spread has stayed stable while m
 
 
 ```{r, echo=FALSE, out.width="60%", fig.align="center"}
-knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/spread_by_value.png")
-knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/spread_by_season.png")
-knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/ml_by_value.png")
-knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/ml_by_season.png")
-knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/ou_by_value.png")
-knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/plots/ou_by_season.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/spread_by_value.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/spread_by_season.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/ml_by_value.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/ml_by_season.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/ou_by_value.png")
+knitr::include_graphics("C:/Users/Owner/OneDrive/Documents/CFB Model Improvement/cfb_app_2/ou_by_season.png")
 ```
 
 

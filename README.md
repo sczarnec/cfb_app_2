@@ -63,6 +63,9 @@ have smaller books but has added mainstream books over the last few
 years. Today, Draft Kings and ESPN Bet are the books that are used, if
 available.
 
+Training data starts in 2015, resulting in four years of test data with
+the six-year rolling window.
+
 <br>
 
 ### Feature Engineering
@@ -128,6 +131,10 @@ NA’s are treated by looking back one to two weeks for each team to see
 if any data can replace the current NA value as a proxy. If not, it is
 left NA for XGBoost to handle.
 
+Games are only predicted for FBS teams. They are not predicted for FCS
+matchups, although stats from those games are used for future features
+for the FBS teams.
+
 <br>
 
 ### Results and Bootstrapping
@@ -150,7 +157,7 @@ while moneyline return has decreased over the last couple years. Spread
 is likely a safer bet as well as one with less variance. As a note on
 the non-significance of these years, the sample sizes are too small.
 
-<img src="plots/spread_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="plots/spread_by_season.png" width="60%" style="display: block; margin: auto;" /><img src="plots/ml_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="plots/ml_by_season.png" width="60%" style="display: block; margin: auto;" /><img src="plots/ou_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="plots/ou_by_season.png" width="60%" style="display: block; margin: auto;" />
+<img src="spread_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="spread_by_season.png" width="60%" style="display: block; margin: auto;" /><img src="ml_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="ml_by_season.png" width="60%" style="display: block; margin: auto;" /><img src="ou_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="ou_by_season.png" width="60%" style="display: block; margin: auto;" />
 
 <br>
 
