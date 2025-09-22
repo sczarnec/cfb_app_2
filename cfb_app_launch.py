@@ -3521,6 +3521,8 @@ def this_week_page():
     ". ML Value is the percentage difference between our predicted win probability for the team with value" \
     " and sportsbooks' implied wp (converted from ML). Over/Under Value is also the game's Predicted Over Probability minus 50%.")
 
+    st.write("When building the model, the book lines at gametime were used to train. For the most accurate results, wait until Friday or Saturday to make betting decisions, as the model may not be as accurate with opening lines.")
+
     st.write("To look at more information for Spread, ML, or O/U, select the 'Bet Type' filter. To sort by one of those values, select" \
     " that filter.")
 
