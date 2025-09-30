@@ -1124,6 +1124,7 @@ def historical_results_page():
     st.write("'Confidence' represents (our predicted probability - 50%). For example, if a team has a 55% chance to cover, their cover confidence is 5%. Similarly, ML Value is a direct comparison of our predicted win " \
     "probability vs the book's implicit win probability from ML. For example, if the book's win probability is 55% and ours is 60%, that's a 5% value.")
     st.write("As a note, some moneyline values for games are incomplete in the data source. These appear as NAs. Others may be NA due to a lack of prior data in the season for one of the teams.")
+    st.write("As a note, there have been a couple of cases where betting accuracy historical predictions get different results than the real-time app. When these discrepancies happen, the historical results are replaced with real time results. Occurences: 202405")
     
 
 
@@ -2597,6 +2598,9 @@ def this_week_page():
                                             </div>
                                         """, unsafe_allow_html=True)
                                 
+                            st.write(" ") 
+                            st.write(" ") 
+                                
 
         
 
@@ -2691,7 +2695,7 @@ def this_week_page():
 
                         st.write(" ")                    
                         st.write(" ") 
-                        st.write(" ") 
+                        
              
 
                         
@@ -2890,6 +2894,9 @@ def this_week_page():
                                             To Hit Value: {filtered_df.iloc[0]["ML Losing Value"]}% 
                                         </div>
                                     """, unsafe_allow_html=True)   
+                                
+                        st.write(" ") 
+                        st.write(" ") 
                     
 
 
