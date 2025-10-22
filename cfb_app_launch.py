@@ -42,17 +42,17 @@ theor_agg = theor_agg.drop(theor_agg.columns[0], axis=1)
 # load  models and variables
 # cover
 cover_model = xgb.Booster()
-cover_model.load_model("most_recent_actual_t1_cover_model.model")
+cover_model.load_model("most_recent_actual_t1_cover_model.json")
 cover_vars = pd.read_csv("most_recent_actual_t1_covermodel_var_list.csv", encoding="utf-8", header=0).iloc[:, 1]
 cover_vars = cover_vars.astype(str).str.strip().tolist()
 # wp
 wp_model = xgb.Booster()
-wp_model.load_model("most_recent_t1_win_model.model")
+wp_model.load_model("most_recent_t1_win_model.json")
 wp_vars = pd.read_csv("most_recent_t1_winmodel_var_list.csv", encoding="utf-8", header=0).iloc[:, 1]
 wp_vars = wp_vars.astype(str).str.strip().tolist()
 # over/under
 over_model = xgb.Booster()
-over_model.load_model("most_recent_actual_over_model.model")
+over_model.load_model("most_recent_actual_over_model.json")
 over_vars = pd.read_csv("most_recent_actual_overmodel_var_list.csv", encoding="utf-8", header=0).iloc[:, 1]
 over_vars = over_vars.astype(str).str.strip().tolist()
 
