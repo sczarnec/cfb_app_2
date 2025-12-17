@@ -1141,9 +1141,11 @@ def playoff_page():
   # Streamlit App
   st.title("The Playoff")
   
-  st.write("This is the 2025 CFB Playoff! if you want, you can change and customize the teams/seeds. The model will predict each game, but you can override with the checkbox.")
+  st.write("These are our 2025 CFB Playoff predictions!")
 
-  st.write("Toggle the menu in the top left corner of this page to go to other tabs on the website!")
+  st.write("If you want, you can change and customize the teams/seeds. The model will predict each game, but you can override with the checkbox.")
+
+  st.write("TO NAVIGATE TO OTHER PAGES ON THE SITE, toggle the button in the top left corner!")
 
   st.write("  ")
 
