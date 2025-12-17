@@ -121,10 +121,12 @@ def predict_with_model(model, var_list, data):
     """
 
     # python handles xgboost differently than r, need to manually stop at ntree that R stopped at
-    best_ntree = int(model.attr("best_ntreelimit"))
+    #best_ntree = int(model.attr("best_ntreelimit"))
+    #best_ntree = model.attr("num_trees")
+
     dmatrix = xgb.DMatrix(data[var_list])
     # predict
-    return model.predict(dmatrix,iteration_range=(0, best_ntree))
+    return model.predict(dmatrix)#model.predict(dmatrix,iteration_range=(0, 204))
 
 
 
@@ -1124,7 +1126,6 @@ def historical_results_page():
     st.write("'Confidence' represents (our predicted probability - 50%). For example, if a team has a 55% chance to cover, their cover confidence is 5%. Similarly, ML Value is a direct comparison of our predicted win " \
     "probability vs the book's implicit win probability from ML. For example, if the book's win probability is 55% and ours is 60%, that's a 5% value.")
     st.write("As a note, some moneyline values for games are incomplete in the data source. These appear as NAs. Others may be NA due to a lack of prior data in the season for one of the teams.")
-    st.write("As a note, there have been a couple of cases where betting accuracy historical predictions get different results than the real-time app. When these discrepancies happen, the historical results are replaced with real time results. Occurences: 202405")
     
 
 
@@ -1520,7 +1521,7 @@ def playoff_page():
         # header
         st.markdown(f"""
             <div style="font-size:20px; font-weight:bold; text-align:center; line-height:2; color:#87CEEB;">
-                Sugar Bowl <br>
+                Cotton Bowl <br>
             </div>
         """, unsafe_allow_html=True)
         
@@ -1579,7 +1580,7 @@ def playoff_page():
         # header
         st.markdown(f"""
             <div style="font-size:20px; font-weight:bold; text-align:center; line-height:2; color:#87CEEB;">
-                Fiesta Bowl <br>
+                Sugar Bowl <br>
             </div>
         """, unsafe_allow_html=True)
         
@@ -1638,7 +1639,7 @@ def playoff_page():
         # header
         st.markdown(f"""
             <div style="font-size:20px; font-weight:bold; text-align:center; line-height:2; color:#87CEEB;">
-                Peach Bowl <br>
+                Orange Bowl <br>
             </div>
         """, unsafe_allow_html=True)
         
@@ -1707,7 +1708,7 @@ def playoff_page():
         # header
         st.markdown(f"""
             <div style="font-size:20px; font-weight:bold; text-align:center; line-height:2; color:#87CEEB;">
-                Cotton Bowl <br>
+                Fiesta Bowl <br>
             </div>
         """, unsafe_allow_html=True)
         
@@ -1765,7 +1766,7 @@ def playoff_page():
         # header
         st.markdown(f"""
             <div style="font-size:20px; font-weight:bold; text-align:center; line-height:2; color:#87CEEB;">
-                Orange Bowl <br>
+                Peach Bowl <br>
             </div>
         """, unsafe_allow_html=True)
         
@@ -2226,11 +2227,13 @@ def this_week_page():
     ## Heading
     st.title(f"Czar's Week {this_week} Picks")
 
+    st.write("IMPORTANT NOTE: THIS IS JUST FOR FUN AND PICKS ARE IN NO WAY GUARANTEED IN REAL LIFE. THESE ARE NOT GAMBLING RECOMMENDATIONS FOR VIEWERS.")
+
     st.write("Welcome! Here are our picks for the week. You can toggle between the data frame view of all games or the more in-depth view of one game at a time.")
 
     st.write("PROFITABILITY NOTE: the spread and moneyline models are significantly profitable. The O/U model is not profitable.")
 
-    st.write("More notes on how to use this page to bet are at the bottom")
+    st.write("More notes on how I use this page to bet are at the bottom")
 
     st.write(" ")  
 
@@ -4137,7 +4140,7 @@ def bet_builder_page():
     
 # sidebar navigation
 st.sidebar.title("""Czar CFB""")
-page = st.sidebar.radio("Go to", ("This Week's Picks", "Betslip Builder", "The Czar Poll", "The Playoff", "Game Predictor", "Betting Accuracy", "About"))
+page = st.sidebar.radio("Go to", ("The Playoff", "The Czar Poll",  "This Week's Picks", "Betslip Builder", "Game Predictor", "Betting Accuracy", "About"))
 
 
 
