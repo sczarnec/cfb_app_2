@@ -1233,32 +1233,43 @@ def playoff_page():
             """, unsafe_allow_html=True)
         
         # go with predicted winner or override?
-        if st.session_state.override_fr1 == True:
+        # if st.session_state.override_fr1 == True:
             
-            st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr1.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        #     st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr1.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
             
-            st.markdown(f"""
-                <div style="font-size:15px; font-weight:bold; color:{results_fr1.iloc[0]["losing_color"]}; text-align:center;">
+        #     st.markdown(f"""
+        #         <div style="font-size:15px; font-weight:bold; color:{results_fr1.iloc[0]["losing_color"]}; text-align:center;">
                       
-                </div>
-            """, unsafe_allow_html=True)
+        #         </div>
+        #     """, unsafe_allow_html=True)
             
-            fr1_winner = results_fr1.iloc[0]["losing_team"]
+        #     fr1_winner = results_fr1.iloc[0]["losing_team"]
             
-        else:
-            st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr1.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        # else:
+        #     st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr1.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
             
-            st.markdown(f"""
-                <div style="font-size:15px; font-weight:bold; color:{results_fr1.iloc[0]["winning_color"]}; text-align:center;">
-                    {results_fr1.iloc[0]["pred_winner_wp"]}% wp
-                </div>
-            """, unsafe_allow_html=True)
+        #     st.markdown(f"""
+        #         <div style="font-size:15px; font-weight:bold; color:{results_fr1.iloc[0]["winning_color"]}; text-align:center;">
+        #             {results_fr1.iloc[0]["pred_winner_wp"]}% wp
+        #         </div>
+        #     """, unsafe_allow_html=True)
             
-            fr1_winner = results_fr1.iloc[0]["winning_team"]
+        #     fr1_winner = results_fr1.iloc[0]["winning_team"]
+
+
+        st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr1.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        
+        st.markdown(f"""
+            <div style="font-size:15px; font-weight:bold; color:{results_fr1.iloc[0]["winning_color"]}; text-align:center;">
+                    
+            </div>
+        """, unsafe_allow_html=True)
+        
+        fr1_winner = results_fr1.iloc[0]["winning_team"]
         
             
         # override checkbox
-        st.checkbox("Override Win?", value=st.session_state.override_fr1, key = "override_fr1")
+        #st.checkbox("Override Win?", value=st.session_state.override_fr1, key = "override_fr1")
         
         
         st.write(" ")
@@ -1291,32 +1302,43 @@ def playoff_page():
             """, unsafe_allow_html=True)
         
         # go with predicted winner or override?
-        if st.session_state.override_fr2 == True:
+        # if st.session_state.override_fr2 == True:
             
-            st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr2.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        #     st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr2.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
             
-            st.markdown(f"""
-                <div style="font-size:15px; font-weight:bold; color:{results_fr2.iloc[0]["winning_color"]}; text-align:center;">
+        #     st.markdown(f"""
+        #         <div style="font-size:15px; font-weight:bold; color:{results_fr2.iloc[0]["winning_color"]}; text-align:center;">
                       
-                </div>
-            """, unsafe_allow_html=True)
+        #         </div>
+        #     """, unsafe_allow_html=True)
             
-            fr2_winner = results_fr2.iloc[0]["losing_team"]
+        #     fr2_winner = results_fr2.iloc[0]["losing_team"]
             
-        else:
-            st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr2.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        # else:
+        #     st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr2.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
 
-            st.markdown(f"""
-                <div style="font-size:15px; font-weight:bold; color:{results_fr2.iloc[0]["winning_color"]}; text-align:center;">
-                    {results_fr2.iloc[0]["pred_winner_wp"]}% wp
-                </div>
-            """, unsafe_allow_html=True)
+        #     st.markdown(f"""
+        #         <div style="font-size:15px; font-weight:bold; color:{results_fr2.iloc[0]["winning_color"]}; text-align:center;">
+        #             {results_fr2.iloc[0]["pred_winner_wp"]}% wp
+        #         </div>
+        #     """, unsafe_allow_html=True)
             
-            fr2_winner = results_fr2.iloc[0]["winning_team"]
+        #     fr2_winner = results_fr2.iloc[0]["winning_team"]
+
+
+        st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr2.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        
+        st.markdown(f"""
+            <div style="font-size:15px; font-weight:bold; color:{results_fr2.iloc[0]["winning_color"]}; text-align:center;">
+                    
+            </div>
+        """, unsafe_allow_html=True)
+        
+        fr2_winner = results_fr2.iloc[0]["losing_team"]
         
             
         # override checkbox
-        st.checkbox("Override Win?", value=st.session_state.override_fr2, key = "override_fr2")
+        #st.checkbox("Override Win?", value=st.session_state.override_fr2, key = "override_fr2")
         
         
         st.write(" ")
@@ -1350,32 +1372,43 @@ def playoff_page():
             """, unsafe_allow_html=True)
         
         # go with predicted winner or override?
-        if st.session_state.override_fr3 == True:
+        # if st.session_state.override_fr3 == True:
             
-            st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr3.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        #     st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr3.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
             
-            st.markdown(f"""
-                <div style="font-size:15px; font-weight:bold; color:{results_fr3.iloc[0]["winning_color"]}; text-align:center;">
+        #     st.markdown(f"""
+        #         <div style="font-size:15px; font-weight:bold; color:{results_fr3.iloc[0]["losing_color"]}; text-align:center;">
                       
-                </div>
-            """, unsafe_allow_html=True)
+        #         </div>
+        #     """, unsafe_allow_html=True)
             
-            fr3_winner = results_fr3.iloc[0]["losing_team"]
+        #     fr3_winner = results_fr3.iloc[0]["losing_team"]
             
-        else:
-            st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr3.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        # else:
+        #     st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr3.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
             
-            st.markdown(f"""
-                <div style="font-size:15px; font-weight:bold; color:{results_fr3.iloc[0]["winning_color"]}; text-align:center;">
-                    {results_fr3.iloc[0]["pred_winner_wp"]}% wp
-                </div>
-            """, unsafe_allow_html=True)
+        #     st.markdown(f"""
+        #         <div style="font-size:15px; font-weight:bold; color:{results_fr3.iloc[0]["winning_color"]}; text-align:center;">
+        #             {results_fr3.iloc[0]["pred_winner_wp"]}% wp
+        #         </div>
+        #     """, unsafe_allow_html=True)
             
-            fr3_winner = results_fr3.iloc[0]["winning_team"]
+        #     fr3_winner = results_fr3.iloc[0]["winning_team"]
+
+            
+        st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr3.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        
+        st.markdown(f"""
+            <div style="font-size:15px; font-weight:bold; color:{results_fr3.iloc[0]["winning_color"]}; text-align:center;">
+                    
+            </div>
+        """, unsafe_allow_html=True)
+        
+        fr3_winner = results_fr3.iloc[0]["winning_team"]
         
             
         # override checkbox
-        st.checkbox("Override Win?", value=st.session_state.override_fr3, key = "override_fr3")
+        #st.checkbox("Override Win?", value=st.session_state.override_fr3, key = "override_fr3")
         
         
         st.write(" ")
@@ -1409,32 +1442,43 @@ def playoff_page():
             """, unsafe_allow_html=True)
         
         # go with predicted winner or override?
-        if st.session_state.override_fr4 == True:
+        # if st.session_state.override_fr4 == True:
             
-            st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr4.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        #     st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr4.iloc[0]["losing_logo"] + "' width='60'></div>", unsafe_allow_html=True)
             
-            st.markdown(f"""
-                <div style="font-size:15px; font-weight:bold; color:{results_fr4.iloc[0]["winning_color"]}; text-align:center;">
+        #     st.markdown(f"""
+        #         <div style="font-size:15px; font-weight:bold; color:{results_fr4.iloc[0]["losing_color"]}; text-align:center;">
                       
-                </div>
-            """, unsafe_allow_html=True)
+        #         </div>
+        #     """, unsafe_allow_html=True)
             
-            fr4_winner = results_fr4.iloc[0]["losing_team"]
+        #     fr4_winner = results_fr4.iloc[0]["losing_team"]
             
-        else:
-            st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr4.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        # else:
+        #     st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr4.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
             
-            st.markdown(f"""
-                <div style="font-size:15px; font-weight:bold; color:{results_fr4.iloc[0]["winning_color"]}; text-align:center;">
-                    {results_fr4.iloc[0]["pred_winner_wp"]}% wp
-                </div>
-            """, unsafe_allow_html=True)
+        #     st.markdown(f"""
+        #         <div style="font-size:15px; font-weight:bold; color:{results_fr4.iloc[0]["winning_color"]}; text-align:center;">
+        #             {results_fr4.iloc[0]["pred_winner_wp"]}% wp
+        #         </div>
+        #     """, unsafe_allow_html=True)
             
-            fr4_winner = results_fr4.iloc[0]["winning_team"]
+        #     fr4_winner = results_fr4.iloc[0]["winning_team"]
+
+
+        st.markdown("<div style='display: flex; justify-content: center;'><img src='" + results_fr4.iloc[0]["winning_logo"] + "' width='60'></div>", unsafe_allow_html=True)
+        
+        st.markdown(f"""
+            <div style="font-size:15px; font-weight:bold; text-align:center;">
+                    
+            </div>
+        """, unsafe_allow_html=True)
+
+        fr4_winner = results_fr4.iloc[0]["winning_team"]
         
             
         # override checkbox
-        st.checkbox("Override Win?", value=st.session_state.override_fr4, key = "override_fr4")
+        #st.checkbox("Override Win?", value=st.session_state.override_fr4, key = "override_fr4")
         
         
 
