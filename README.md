@@ -8,6 +8,9 @@ This document contains all documentation for Czar College Football,
 including both the model and app. For any further questions, reach out
 to Steve at <sczarnecki1212@gmail.com>
 
+The link to the actual app is here:
+<https://czar-college-football.streamlit.app/>
+
 As for the code, only the app code is public. Model data preparation and
 training are in a private repo.
 
@@ -55,7 +58,7 @@ Week 4 was chosen as the cutoff point since accuracy was bad for weeks 2
 and 3 and improved for 4. This is likely because not much data is
 available for the rolling windows to be computed.
 
-<img src="rolling_window_vis.png" width="60%" style="display: block; margin: auto;" />
+<img src="rolling_window_vis.png" alt="" width="60%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -164,7 +167,7 @@ while moneyline return has decreased over the last couple years. Spread
 is likely a safer bet as well as one with less variance. As a note on
 the non-significance of these years, the sample sizes are too small.
 
-<img src="spread_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="spread_by_season.png" width="60%" style="display: block; margin: auto;" /><img src="ml_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="ml_by_season.png" width="60%" style="display: block; margin: auto;" /><img src="ou_by_value.png" width="60%" style="display: block; margin: auto;" /><img src="ou_by_season.png" width="60%" style="display: block; margin: auto;" />
+<img src="spread_by_value.png" alt="" width="60%" style="display: block; margin: auto;" /><img src="spread_by_season.png" alt="" width="60%" style="display: block; margin: auto;" /><img src="ml_by_value.png" alt="" width="60%" style="display: block; margin: auto;" /><img src="ml_by_season.png" alt="" width="60%" style="display: block; margin: auto;" /><img src="ou_by_value.png" alt="" width="60%" style="display: block; margin: auto;" /><img src="ou_by_season.png" alt="" width="60%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -293,7 +296,7 @@ There is another R script set up locally to run on a schedule (will
 likely be automated to TH/F/SA mornings but is manual at the moment).
 This will update the file containing betting lines and push to GitHub.
 
-<img src="app_pipeline.png" width="60%" style="display: block; margin: auto;" />
+<img src="app_pipeline.png" alt="" width="60%" style="display: block; margin: auto;" />
 
 <br>
 
