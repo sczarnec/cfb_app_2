@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This document contains all documentation for Czar College Football, including both the model and app. For any further questions, reach out to Steve at sczarnecki1212@gmail.com
 
+The link to the actual app is here: https://czar-college-football.streamlit.app/
+
 As for the code, only the app code is public. Model data preparation and training are in a private repo.
 
 <br>
