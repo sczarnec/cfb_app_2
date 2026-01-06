@@ -1143,7 +1143,9 @@ def playoff_page():
   
   st.write("These are our 2025 CFB Playoff predictions!")
 
-  st.write("If you want, you can change and customize the teams/seeds. The model will predict each game, but you can override with the checkbox.")
+  st.write("We filled in the games that have already happened and are just predicting future games here")
+
+  #st.write("If you want, you can change and customize the teams/seeds. The model will predict each game, but you can override with the checkbox.")
 
   st.write("TO NAVIGATE TO OTHER PAGES ON THE SITE, toggle the button in the top left corner!")
 
